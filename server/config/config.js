@@ -7,6 +7,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || "dev";
 //Database
 let dbUrl = "mongodb://localhost:27017/cafe";
 if (process.env.NODE_ENV !== "dev") {
-    dbUrl = "mongodb://frank:zxc123@ds237713.mlab.com:37713/cafe";
+    dbUrl = process.env.MONGO_DBURL;
 }
 process.env.DBURL = dbUrl;
