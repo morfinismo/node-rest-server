@@ -10,7 +10,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use(require("./routes/user"));
+//global routes settings
+app.use(require("./routes/index"));
 
 mongoose.connect(process.env.DBURL, (err, res) => {
     if (err) {
@@ -19,6 +20,7 @@ mongoose.connect(process.env.DBURL, (err, res) => {
     console.log("DB has been connected");
 });
 
+//define port to be used
 app.listen(process.env.PORT, () => {
     console.log("Listening on port 80");
 });

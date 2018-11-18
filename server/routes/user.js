@@ -2,6 +2,7 @@ const express = require('express');
 const User = require("../models/user");
 const bcrypt = require('bcrypt');
 const _ = require("underscore");
+const { tokenVerification, verifyAdminRole } = require("../middlewares/authentication");
 const app = express();
 
 
@@ -9,7 +10,13 @@ app.get('/', function(req, res) {
     res.json('Hello World');
 });
 
-app.get('/user', function(req, res) {
+app.get('/user', tokenVerification, function(req, res) {
+
+    // return res.json({
+    //     user: req.user,
+    //     name: req.user.name,
+    //     email: req.user.email
+    // });
 
     let from = Number(req.query.from);
     if (typeof(from) !== "number") {
@@ -42,7 +49,7 @@ app.get('/user', function(req, res) {
 
 });
 
-app.post('/user', function(req, res) {
+app.post('/user', [tokenVerification, verifyAdminRole], function(req, res) {
     let body = req.body;
     let user = new User({
         name: body.name,
@@ -66,7 +73,7 @@ app.post('/user', function(req, res) {
 
 });
 
-app.put('/user/:id', function(req, res) {
+app.put('/user/:id', [tokenVerification, verifyAdminRole], function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ["name", "email", "img", "status"]);
     User.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, dbUser) => {
@@ -83,7 +90,7 @@ app.put('/user/:id', function(req, res) {
     });
 });
 
-app.delete('/user/:id', function(req, res) {
+app.delete('/user/:id', [tokenVerification, verifyAdminRole], function(req, res) {
     let id = req.params.id;
     // User.findByIdAndRemove(id, (err, deletedUser) => {
     //     if (err) {
