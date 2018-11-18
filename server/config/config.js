@@ -20,3 +20,7 @@ if (process.env.NODE_ENV !== "dev") {
     dbUrl = process.env.MONGO_DBURL;
 }
 process.env.DBURL = dbUrl;
+
+
+//Google client id
+process.env.CLIENT_ID = process.env.CLIENT_ID || "996573807266-oepd29n9e26haqqhjtp3q90d7r841mjh.apps.googleusercontent.com";

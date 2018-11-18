@@ -2,6 +2,7 @@ require("./config/config");
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require("path");
 const app = express();
 
 // parse application/x-www-form-urlencoded
@@ -9,6 +10,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+
+//enable public folder
+app.use(express.static(__dirname + "/public"));
 
 //global routes settings
 app.use(require("./routes/index"));
